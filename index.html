@@ -7,9 +7,11 @@
 <title>P2P Tukar Cash</title>
 <style>
 :root{--bg1:#091440;--bg2:#0c1e3e;--card:rgba(255,255,255,.045);--card2:rgba(255,255,255,.08);--text:#eaf0fb;--muted:#8fa3bf;--line:rgba(255,255,255,.1);
---a1:#2970ff;--a2:#2ed8a3;--shadow:0 10px 30px rgba(0,0,0,.35);color-scheme:dark;
+--a1:#2970ff;--a2:#2ed8a3;--shadow:0 8px 24px rgba(0,0,0,.3);color-scheme:dark;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:light){:root{--bg1:#f3f7fc;--bg2:#e8f0fa;--card:#ffffff;--card2:#f1f5fb;--text:#0c1e3e;--muted:#596d81;--line:#dbe4f0;--shadow:0 10px 30px rgba(12,30,62,.08);color-scheme:light}}
+@media (prefers-color-scheme:light){:root{--bg1:#f3f7fc;--bg2:#e8f0fa;--card:#ffffff;--card2:#f1f5fb;--text:#0c1e3e;--muted:#596d81;--line:#dbe4f0;--shadow:0 8px 24px rgba(12,30,62,.08);color-scheme:light}}
+:root{--coin:#2ed8a3}
+:root[data-mode="cash"]{--a1:#2970ff;--a2:#2ed8a3}
 :root[data-mode="XMR"]{--a1:#ff6600;--a2:#ff9b57}
 :root[data-mode="DCR"]{--a1:#2970ff;--a2:#2ed8a3}
 :root[data-mode="FIRO"]{--a1:#e23c4f;--a2:#ff8a8a}
@@ -18,115 +20,178 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 :root[data-mode="USDT_BSC"]{--a1:#f0b90b;--a2:#ffe083}
 html{scroll-padding-top:env(safe-area-inset-top,0px);min-height:100%}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;min-height:100vh;background:radial-gradient(1200px 500px at 50% -10%,color-mix(in srgb,var(--a1) 22%,transparent),transparent 70%),linear-gradient(180deg,var(--bg1),var(--bg2));background-attachment:fixed;color:var(--text);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:background .3s}
-.wrap{max-width:420px;margin:0 auto;padding:8px 14px 36px}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 8px}
-.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px}
-.logo{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--a1),var(--a2));display:grid;place-items:center;color:#041225;font-size:10px;font-weight:900;transform:rotate(-6deg);box-shadow:0 6px 16px color-mix(in srgb,var(--a1) 45%,transparent)}
-.pill{font-size:11px;color:var(--muted);border:1px solid var(--line);background:var(--card);border-radius:99px;padding:4px 10px;display:flex;align-items:center;gap:6px}
-.pill i{width:7px;height:7px;border-radius:50%;background:var(--a2);box-shadow:0 0 0 3px color-mix(in srgb,var(--a2) 25%,transparent)}
-h1{font-size:21px;line-height:1.2;margin:4px 0 4px;font-weight:800;letter-spacing:-.4px;background:linear-gradient(90deg,var(--a1),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{color:var(--muted);margin:0 0 10px;font-size:13px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:4px}
-.tabs button{font:inherit;font-weight:700;cursor:pointer;border:0;border-radius:9px;padding:7px;font-size:13px;background:transparent;color:var(--muted);transition:.2s}
-.tabs button.on{background:linear-gradient(90deg,var(--a1),var(--a2));color:#041225;box-shadow:0 6px 16px color-mix(in srgb,var(--a1) 35%,transparent)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:9px 0;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
-.card h3{margin:0 0 8px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
-label{font-size:11px;color:var(--muted);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;font-weight:700}
-input{width:100%;font:inherit;font-size:17px;font-weight:700;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;outline:none}
+body{margin:0;min-height:100vh;background:radial-gradient(900px 420px at 50% -10%,color-mix(in srgb,var(--a1) 30%,transparent),transparent 70%),linear-gradient(180deg,var(--bg1),var(--bg2));background-attachment:fixed;color:var(--text);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;transition:background .3s}
+.wrap{max-width:400px;margin:0 auto;padding:6px 12px 24px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 6px}
+.brand{display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px}
+.logo{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--a1),var(--a2));display:grid;place-items:center;color:#041225;font-size:9px;font-weight:900;transform:rotate(-6deg)}
+.pill{font-size:10.5px;color:var(--muted);border:1px solid var(--line);background:var(--card);border-radius:99px;padding:3px 9px;display:flex;align-items:center;gap:5px}
+.pill i{position:relative;width:7px;height:7px;border-radius:50%;background:var(--coin);box-shadow:0 0 0 2px color-mix(in srgb,var(--coin) 22%,transparent),0 0 8px color-mix(in srgb,var(--coin) 55%,transparent);transition:background .35s ease,box-shadow .35s ease}
+.pill i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--coin);opacity:.45;animation:ping 2.6s cubic-bezier(0,0,.2,1) infinite;transition:background .35s ease}
+@keyframes ping{0%{transform:scale(1);opacity:.45}70%,100%{transform:scale(2.7);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pill i::after{animation:none;opacity:0}}
+h1{font-size:20px;line-height:1.2;margin:2px 0 2px;font-weight:800;letter-spacing:-.3px;background:linear-gradient(90deg,var(--a1),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);margin:0 0 8px;font-size:12.5px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:2px}
+.tabs button{font:inherit;font-size:13px;font-weight:700;cursor:pointer;border:0;border-radius:9px;padding:7px;background:transparent;color:var(--muted);transition:.2s}
+.tabs button.on{background:linear-gradient(90deg,var(--a1),var(--a2));color:#041225}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;margin:8px 0;box-shadow:var(--shadow)}
+.card h3{margin:0 0 7px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:2px 8px}
+.card h3 span{text-transform:none;letter-spacing:0;font-weight:500;margin-left:auto;text-align:right}
+.side,.main,.card{min-width:0}
+.coins .t{overflow:hidden;text-overflow:ellipsis}
+.lv.bad{color:#ffcf5c;cursor:pointer;text-decoration:underline}
+label{font-size:11px;color:var(--muted);display:block;margin:10px 0 5px;text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+input{width:100%;font:inherit;font-size:17px;font-weight:700;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 11px;outline:none}
 input:focus{border-color:var(--a1)}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tiles button{font:inherit;cursor:pointer;text-align:left;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:11px;padding:8px 11px;display:flex;flex-direction:column;gap:0;transition:.15s}
-.tiles button .a{font-size:16px;font-weight:800}
-.tiles button .s{font-size:11px;color:var(--muted)}
-.tiles button.on{border-color:var(--a1);background:linear-gradient(135deg,color-mix(in srgb,var(--a1) 22%,transparent),color-mix(in srgb,var(--a2) 14%,transparent));box-shadow:0 0 0 1px var(--a1) inset}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tiles button{font:inherit;cursor:pointer;text-align:center;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:10px;padding:7px 2px;display:flex;flex-direction:column;gap:0;transition:.15s}
+.tiles button .a{font-size:14.5px;font-weight:800}
+.tiles button .s{font-size:10.5px;color:var(--muted)}
+.tiles button.on,.coins button.on{border-color:var(--a1);background:linear-gradient(135deg,color-mix(in srgb,var(--a1) 24%,transparent),color-mix(in srgb,var(--a2) 14%,transparent));box-shadow:0 0 0 1px var(--a1) inset}
 .tiles button.on .a{color:var(--a2)}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chips button{font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:99px;padding:5px 11px;display:inline-flex;align-items:center;gap:7px;transition:.15s}
-.chips button i{width:9px;height:9px;border-radius:50%;display:inline-block}
-.chips button.on{border-color:var(--a1);color:var(--text);box-shadow:0 0 0 1px var(--a1) inset;background:color-mix(in srgb,var(--a1) 18%,transparent)}
-.picked{font-size:24px;font-weight:800;letter-spacing:-.4px;margin:0 0 4px}
-.row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:13px;border-bottom:1px dashed var(--line);color:var(--muted)}
+.coins{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.rngrow{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px;font-size:12px;color:var(--muted)}
+.sp{width:100%;height:34px;display:block;margin:4px 0 1px}
+.coins .mm{font-size:10px}
+.coins button{font:inherit;cursor:pointer;text-align:left;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:10px;padding:6px 8px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.coins .t{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;white-space:nowrap}
+.coins .t i{width:8px;height:8px;border-radius:50%;flex:none}
+.coins .p{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.coins small{font-size:10.5px;color:var(--muted);white-space:nowrap}
+.usd{font-size:12px;color:var(--muted);margin:7px 0 0;display:flex;justify-content:space-between}
+.usd b{color:var(--text)}
+.row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:13px;border-bottom:1px dashed var(--line);color:var(--muted)}
 .row b{color:var(--text);font-variant-numeric:tabular-nums}
-.big{display:flex;justify-content:space-between;align-items:baseline;padding-top:8px;font-size:13px}
+.big{display:flex;justify-content:space-between;align-items:baseline;padding-top:7px;font-size:13px}
 .total{font-size:19px;font-weight:800;color:var(--a2);font-variant-numeric:tabular-nums}
-.btn{width:100%;margin-top:10px;font:inherit;font-size:14px;font-weight:800;cursor:pointer;border:0;border-radius:11px;padding:10px;background:linear-gradient(90deg,var(--a1),var(--a2));color:#041225;box-shadow:0 8px 20px color-mix(in srgb,var(--a1) 35%,transparent);transition:transform .1s}
+.btn{width:100%;margin-top:9px;font:inherit;font-size:14px;font-weight:800;cursor:pointer;border:0;border-radius:11px;padding:10px;background:linear-gradient(90deg,var(--a1),var(--a2));color:#041225;transition:transform .1s}
 .btn:active{transform:scale(.985)}
-.btn.alt{background:var(--card2);color:var(--text);border:1px solid var(--line);box-shadow:none}
+.btn.alt{background:var(--card2);color:var(--text);border:1px solid var(--line)}
 a.btn{display:block;text-align:center;text-decoration:none}
+.mini{font:inherit;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:99px;padding:5px 11px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.two .btn{margin-top:8px}
 a{color:var(--a2);font-weight:700}
-.qrbox{background:#fff;border-radius:12px;padding:6px;border:1px solid var(--line);max-width:260px;margin:0 auto}
-.qr{width:100%;border-radius:10px;display:block;min-height:160px}
-.addr{word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:var(--card2);border:1px dashed var(--a1);border-radius:10px;padding:9px;margin:6px 0}
-ol{padding-left:18px;margin:4px 0 0;color:var(--muted);font-size:13px}
-ol li{margin:4px 0}
-.note{font-size:12px;color:var(--muted);margin:8px 0 0}
-.warn{font-size:12px;font-weight:700;color:#ffcf5c;margin:10px 0 0}
+.qrbox{background:#fff;border-radius:12px;padding:6px;border:1px solid var(--line);max-width:250px;margin:0 auto}
+.qr{width:100%;border-radius:8px;display:block;min-height:150px}
+.addr{word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:var(--card2);border:1px dashed var(--a1);border-radius:10px;padding:9px;margin:5px 0}
+.note{font-size:11.5px;color:var(--muted);margin:7px 0 0}
+.warn{font-size:12px;font-weight:700;color:#ffcf5c;margin:6px 0 0}
 .hide{display:none}
-.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:14px}.foot a{font-size:11px;font-weight:600}
+.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:12px}
+.foot a{font-size:11px;font-weight:600}
+.only-pc{display:none}
+.only-pc ol{padding-left:18px;margin:2px 0 0;color:var(--muted);font-size:13px}
+@media (min-width:880px){
+ body{font-size:15px}
+ .wrap{max-width:920px;padding:20px 28px 32px}
+ .nav{padding-bottom:20px}
+ .brand{font-size:15px}.logo{width:26px;height:26px;font-size:10px}
+ .pill{font-size:12px}
+ .layout{display:grid;grid-template-columns:1fr 1.1fr;gap:32px;align-items:start}
+ .side{position:sticky;top:20px}
+ h1{font-size:32px;margin-top:8px}
+ .sub{font-size:15px;margin-bottom:16px}
+ .tabs button{font-size:14px;padding:9px}
+ .only-pc{display:block}
+ .card{padding:16px;border-radius:16px}
+ .main .card:first-child{margin-top:0}
+ .tiles button .a{font-size:17px}.tiles button .s{font-size:12px}
+ .coins button{padding:8px 10px}.coins .t,.coins .p{font-size:13px}.coins small{font-size:11.5px}
+ .row,.big{font-size:14px}.total{font-size:22px}
+ .btn{padding:12px;font-size:15px}
+ .qrbox{max-width:300px}
+ .note{font-size:12.5px}
+ .foot{margin-top:26px;font-size:12px}.foot a{font-size:12px}
+}
+.chart{margin-top:10px}
+.cht{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;font-size:12px}
+.rng{display:flex;gap:4px}
+.rng button{font:inherit;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--line);background:var(--card2);color:var(--muted);border-radius:99px;padding:2px 9px}
+.rng button.on{color:var(--text);border-color:var(--a1)}
+.chsvg{width:100%;height:84px;display:block;touch-action:pan-y;background:var(--card2);border:1px solid var(--line);border-radius:10px}
+.chinfo{font-size:12px;margin:5px 0 2px;font-variant-numeric:tabular-nums;min-height:17px}
+.chstat{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.chstat b{color:var(--text);font-weight:700}
+@media (min-width:880px){.chsvg{height:110px}}
+@media (min-width:880px){
+  .wrap{max-width:1040px;padding:24px 36px 40px}
+  .layout{grid-template-columns:minmax(300px,.85fr) 1.25fr;gap:44px}
+  .side{top:28px}
+  h1{font-size:38px;line-height:1.1;margin:10px 0 6px}
+  .sub{font-size:16px;margin-bottom:20px}
+  .tabs{max-width:360px;margin-bottom:14px}
+  .card{padding:20px 22px;margin:0 0 16px}
+  .card h3{font-size:12px;margin-bottom:12px}
+  .coins{gap:12px}
+  .coins button{padding:10px 12px;transition:border-color .15s,transform .15s}
+  .coins button:hover,.tiles button:hover{border-color:var(--a1)}
+  .tiles{gap:10px}.tiles button{padding:10px 4px}
+  input{font-size:19px;padding:11px 14px}
+  .qrbox{max-width:320px}
+  .foot{margin-top:32px}
+}
+@media (min-width:1200px){.wrap{max-width:1120px}}
+@media (min-width:880px){.coins{grid-template-columns:repeat(3,1fr)}.sp{height:40px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <div class="nav"><div class="brand"><span class="logo">P2P</span>Tukar</div><div class="pill"><i></i>QRIS &amp; Crypto</div></div>
+<div class="layout"><div class="side">
 <h1 id="ttl">P2P Tukar Cash</h1>
 <p class="sub" id="sub"></p>
 <div class="tabs" id="tabs"><button data-m="cash" class="on">💵 Cash</button><button data-m="crypto">🪙 Crypto</button></div>
-
+<div class="card only-pc"><h3>Cara kerja</h3>
+<ol><li>Pilih nominal (Cash) atau coin (Crypto).</li><li>Bayar via QRIS, atau kirim ke alamat yang tampil.</li><li>Tunjukkan bukti bayar atau TXID, lalu terima uangmu.</li></ol>
+<p class="note">Biaya admin 5% dari nominal. Nominal QRIS sudah terisi otomatis.</p></div>
+</div><div class="main">
 <div id="vcash">
-<div class="card"><h3>Pilih nominal tukar</h3>
-<div class="tiles" id="chips"></div></div>
-<div class="card">
-<h3>Rincian</h3>
-<div class="picked" id="n"></div>
+<div class="card"><h3>Pilih nominal</h3>
+<div class="tiles" id="chips"></div>
+<div style="margin-top:8px">
 <div class="row"><span>Cash yang kamu terima</span><b id="cash"></b></div>
 <div class="row"><span>Biaya admin (5%)</span><b id="fee"></b></div>
-<div class="big"><span>Bayar via QRIS</span><span class="total" id="total"></span></div>
-<button class="btn" id="pay">Bayar sekarang</button></div>
-<div class="card"><h3>Cara tukar</h3>
-<ol><li>Pilih nominal di atas.</li><li>Tekan <b>Bayar sekarang</b>, scan QRIS yang muncul.</li><li>Nominal sudah terisi otomatis, langsung bayar.</li><li>Tunjukkan bukti bayar, terima cash.</li></ol>
-<p class="note">Admin 5%: Rp5.000 = Rp250, Rp10.000 = Rp500, Rp20.000 = Rp1.000, Rp50.000 = Rp2.500.</p></div>
+<div class="big"><span>Bayar via QRIS</span><span class="total" id="total"></span></div></div>
+<button class="btn" id="pay">Bayar sekarang</button>
+<p class="note">Scan QRIS (nominal terisi otomatis) → bayar → tunjukkan bukti → terima cash.</p></div>
 </div>
 
 <div id="vcrypto" class="hide">
-<div class="card"><h3>Pilih pasangan</h3>
-<div class="chips" id="pairs"></div>
-<label for="ca" style="margin-top:16px" id="calab">Jumlah</label>
+<div class="card"><h3>Pilih coin <span id="lvst" class="lv">· memuat</span></h3>
+<div class="rngrow"><span>Riwayat harga</span><span class="rng" id="rng"><button data-d="1">24J</button><button data-d="7" class="on">7H</button><button data-d="30">30H</button></span></div>
+<div class="coins" id="pairs"></div>
+<div class="usd"><span>Kurs dolar</span><b id="usdrate"></b></div>
+<label for="ca" id="calab">Jumlah</label>
 <input id="ca" type="number" inputmode="decimal" min="0" step="any" placeholder="0">
-</div>
-<div class="card">
-<h3>Rincian</h3>
+<div style="margin-top:8px">
 <div class="row"><span>Kurs</span><b id="krate"></b></div>
-<div class="row"><span>Nilai (Rp)</span><b id="kgross"></b></div>
 <div class="row"><span>Biaya admin (5%)</span><b id="kfee"></b></div>
-<div class="big"><span>Kamu terima</span><span class="total" id="kget"></span></div>
+<div class="big"><span>Kamu terima</span><span class="total" id="kget"></span></div></div>
 <button class="btn" id="cpay">Kirim sekarang</button>
-<p class="note">Kurs bisa berubah. Konfirmasi kurs ke admin sebelum mengirim.<span id="kstamp"></span></p>
-<p class="note">Cek transaksi di <a id="kex" href="#" target="_blank" rel="noopener"></a></p></div>
+<p class="note">Kurs bisa berubah, konfirmasi ke admin. Cek transaksi: <a id="kex" href="#" target="_blank" rel="noopener"></a></p></div>
 </div>
 
 <div id="vpq" class="hide">
 <div class="card">
-<h3>Pembayaran QRIS</h3>
-<p class="total" id="qamt" style="margin:0 0 10px"></p>
-<button class="btn alt" id="back" style="margin:0 0 14px">← Ubah nominal</button>
+<div class="top"><span class="total" id="qamt"></span><button class="mini" id="back">← Ubah</button></div>
 <div class="qrbox"><img class="qr" id="qrimg" alt="QRIS WARPID"></div>
-<p class="note">Nominal sudah terisi otomatis di QRIS ini. Cukup scan lalu bayar.</p></div>
+<p class="note">Nominal sudah terisi otomatis. Scan lalu bayar.</p></div>
 </div>
 
 <div id="vpc" class="hide">
 <div class="card">
-<h3>Kirim crypto</h3>
-<p class="total" id="camt" style="margin:0 0 6px"></p>
-<p class="note" style="margin:0 0 12px" id="cget"></p>
-<button class="btn alt" id="cback" style="margin:0 0 14px">← Ubah jumlah</button>
-<label id="clab">Alamat penerima</label>
+<div class="top"><span class="total" id="camt"></span><button class="mini" id="cback">← Ubah</button></div>
+<p class="note" style="margin:0 0 8px" id="cget"></p>
+<label id="clab" style="margin-top:0">Alamat penerima</label>
 <div class="addr" id="caddr"></div>
 <p class="warn" id="cnet"></p>
-<button class="btn" id="ccopy">Salin alamat</button>
-<a class="btn alt" id="cex" href="#" target="_blank" rel="noopener">Buka Explorer ↗</a>
-<p class="note">Cek ulang alamat sebelum mengirim. Transaksi kripto tidak bisa dibatalkan.</p></div>
+<div class="two"><button class="btn" id="ccopy">Salin alamat</button><a class="btn alt" id="cex" href="#" target="_blank" rel="noopener">Explorer ↗</a></div>
+<p class="note">Cek ulang alamat. Transaksi kripto tidak bisa dibatalkan.</p></div>
 </div>
+</div></div>
 <div class="foot">Pengaduan &amp; layanan: <a href="mailto:quqno@tuta.io?subject=Pengaduan%20P2P%20Tukar">quqno@tuta.io</a></div>
 </div>
 <script>
@@ -134,6 +199,7 @@ ol li{margin:4px 0}
 var CFG={
   ADDR:{XMR:"",DCR:"",FIRO:"",ZANO:"",USDT_TRX:"",USDT_BSC:""},   // tempel alamat penerima
   RATE:{XMR:0,DCR:0,FIRO:0,ZANO:0,USDT_TRX:0,USDT_BSC:0},         // kurs manual (cadangan)
+  USD_IDR:0,   // KURS DOLAR manual: isi misal 16500 (1 USD = Rp16.500). Kosongkan/0 = otomatis live
   FEE_CASH:0.05, FEE_CRYPTO:0.05
 };
 // Gambar QRIS per nominal (sudah termasuk admin 5%), tertanam langsung di file ini
@@ -141,25 +207,123 @@ var QR={5000:"/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODw
 var ALLOWED=[5000,10000,20000,50000];
 // sym=simbol, id=ID CoinGecko, ex=link explorer, net=peringatan jaringan (khusus USDT)
 var COINS={
-  XMR:{sym:"XMR",label:"XMR",color:"#ff6600",name:"Monero (XMR)",id:"monero",ex:"https://xmrchain.net",exn:"xmrchain.net"},
-  DCR:{sym:"DCR",label:"DCR",color:"#2ed8a3",name:"Decred (DCR)",id:"decred",ex:"https://dcrdata.decred.org",exn:"dcrdata.decred.org"},
-  FIRO:{sym:"FIRO",label:"FIRO",color:"#e23c4f",name:"Firo (FIRO)",id:"firo",ex:"https://explorer.firo.org",exn:"explorer.firo.org"},
-  ZANO:{sym:"ZANO",label:"ZANO",color:"#5c7cfa",name:"Zano (ZANO)",id:"zano",ex:"https://explorer.zano.org",exn:"explorer.zano.org"},
-  USDT_TRX:{sym:"USDT",label:"USDT TRC20",color:"#26a17b",name:"USDT jaringan TRON (TRC20)",id:"tether",ex:"https://tronscan.org",exn:"tronscan.org",net:"Kirim hanya lewat jaringan TRON (TRC20). Salah jaringan = dana hilang."},
-  USDT_BSC:{sym:"USDT",label:"USDT BEP20",color:"#f0b90b",name:"USDT jaringan BSC (BEP20)",id:"tether",ex:"https://bscscan.com",exn:"bscscan.com",net:"Kirim hanya lewat jaringan BNB Smart Chain (BEP20). Salah jaringan = dana hilang."}
+  XMR:{sym:"XMR",label:"XMR",color:"#ff6600",name:"Monero (XMR)",id:"monero",pp:"xmr-monero",ex:"https://xmrchain.net",exn:"xmrchain.net"},
+  DCR:{sym:"DCR",label:"DCR",color:"#2ed8a3",name:"Decred (DCR)",id:"decred",pp:"dcr-decred",ex:"https://dcrdata.decred.org",exn:"dcrdata.decred.org"},
+  FIRO:{sym:"FIRO",label:"FIRO",color:"#e23c4f",name:"Firo (FIRO)",id:"firo",pp:"firo-firo",ex:"https://explorer.firo.org",exn:"explorer.firo.org"},
+  ZANO:{sym:"ZANO",label:"ZANO",color:"#5c7cfa",name:"Zano (ZANO)",id:"zano",pp:"zano-zano",ex:"https://explorer.zano.org",exn:"explorer.zano.org"},
+  USDT_TRX:{sym:"USDT",label:"USDT TRC20",color:"#26a17b",name:"USDT jaringan TRON (TRC20)",id:"tether",pp:"usdt-tether",ex:"https://tronscan.org",exn:"tronscan.org",net:"Kirim hanya lewat jaringan TRON (TRC20). Salah jaringan = dana hilang."},
+  USDT_BSC:{sym:"USDT",label:"USDT BEP20",color:"#f0b90b",name:"USDT jaringan BSC (BEP20)",id:"tether",pp:"usdt-tether",ex:"https://bscscan.com",exn:"bscscan.com",net:"Kirim hanya lewat jaringan BNB Smart Chain (BEP20). Salah jaringan = dana hilang."}
 };
-function loadRates(){
-  var ids=[];Object.keys(COINS).forEach(function(k){if(ids.indexOf(COINS[k].id)<0)ids.push(COINS[k].id);});
-  try{
-    fetch("https://api.coingecko.com/api/v3/simple/price?ids="+ids.join(",")+"&vs_currencies=idr")
-    .then(function(r){return r.json();})
-    .then(function(d){
-      Object.keys(COINS).forEach(function(k){var v=d[COINS[k].id];if(v&&v.idr)CFG.RATE[k]=v.idr;});
-      var n=new Date();$("kstamp").textContent=" Kurs live, diperbarui "+n.toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})+".";
-      cupd();
-    }).catch(function(){$("kstamp").textContent=" Kurs live gagal dimuat, memakai kurs manual.";});
-  }catch(e){}
+var PX={};
+var FX=0,IDX=0,FXS="",busy=false;
+function usdIdr(){return CFG.USD_IDR>0?CFG.USD_IDR:(IDX>0?IDX:((PX.tether&&PX.tether.idr)||FX||0));}
+function usdSrc(){return CFG.USD_IDR>0?" (diatur)":IDX>0?" · "+FXS:(PX.tether&&PX.tether.idr)?" · CoinGecko":FX?" · open.er-api":"";}
+function applyUsd(){var u=usdIdr();if(u>0){CFG.RATE.USDT_TRX=u;CFG.RATE.USDT_BSC=u;}}
+function renderPairs(){
+  var h="";
+  Object.keys(COINS).forEach(function(k){var c=COINS[k],sp=sparkSvg(k),p=PX[c.id]||{},idr=c.id==="tether"?usdIdr():(p.idr||CFG.RATE[k]),ch=p.idr_24h_change,chs="&nbsp;";
+    if(typeof ch==="number")chs='<span style="color:'+(ch>=0?"#2ed8a3":"#ff6b6b")+'">'+(ch>=0?"+":"")+ch.toFixed(2)+"%</span>";
+    h+='<button data-p="'+k+'" class="'+(k===pair?"on":"")+'"><span class="t"><i style="background:'+c.color+'"></i>'+c.label+'</span><span class="p">'+(c.sym==="USDT"?"≈ US$1":(idr>0?rp(idr):"-"))+'</span><small>'+chs+'</small>'+sp.svg+'<small class="mm">'+sp.mm+'</small></button>';});
+  $("pairs").innerHTML=h;
+  var u=usdIdr();$("usdrate").textContent=u>0?"1 USD = "+rp(u)+usdSrc():(RS==="fail"?"belum tersedia":"memuat...");
 }
+var RS="load",RNG=7,HC={},chTok=0,CH=null;
+function fetchJson(u){return fetch(u).then(function(r){if(!r.ok)throw new Error("http");return r.json();});}
+// Sumber 1: CoinGecko. Sumber 2 (cadangan): CryptoCompare
+function pricesGecko(ids){return fetchJson("https://api.coingecko.com/api/v3/simple/price?ids="+ids.join(",")+"&vs_currencies=idr,usd&include_24hr_change=true");}
+function pricesBackup(){
+  var syms=[];Object.keys(COINS).forEach(function(k){if(syms.indexOf(COINS[k].sym)<0)syms.push(COINS[k].sym);});
+  return fetchJson("https://min-api.cryptocompare.com/data/pricemultifull?fsyms="+syms.join(",")+"&tsyms=IDR,USD").then(function(j){
+    var d={};Object.keys(COINS).forEach(function(k){var c=COINS[k],r=j.RAW&&j.RAW[c.sym];
+      if(r&&r.IDR&&r.IDR.PRICE)d[c.id]={idr:r.IDR.PRICE,usd:r.USD&&r.USD.PRICE,idr_24h_change:r.IDR.CHANGEPCT24HOUR};});
+    return d;});
+}
+// Sumber 3 (cadangan terakhir): CoinPaprika (USD) + kurs dolar dari open.er-api.com
+function pricesPaprika(){
+  var fx=fetchJson("https://open.er-api.com/v6/latest/USD").then(function(j){return j&&j.rates&&j.rates.IDR||0;}).catch(function(){return 0;});
+  var seen={},jobs=[];
+  Object.keys(COINS).forEach(function(k){var c=COINS[k];if(seen[c.id])return;seen[c.id]=1;
+    jobs.push(fetchJson("https://api.coinpaprika.com/v1/tickers/"+c.pp+"?quotes=USD").then(function(j){var q=j&&j.quotes&&j.quotes.USD;return q?{id:c.id,usd:q.price,ch:q.percent_change_24h}:null;}).catch(function(){return null;}));});
+  return Promise.all([fx,Promise.all(jobs)]).then(function(r){var d={};if(r[0])FX=r[0];if(!r[0])return d;
+    r[1].forEach(function(x){if(x&&x.usd>0)d[x.id]={idr:x.usd*r[0],usd:x.usd,idr_24h_change:x.ch};});return d;});
+}
+function fillMissing(ids,fn){return function(d){
+  var miss=ids.filter(function(id){return !d[id]||!d[id].idr;});
+  if(!miss.length)return d;
+  return fn().then(function(f){miss.forEach(function(id){if(f[id])d[id]=f[id];});return d;}).catch(function(){return d;});};}
+function setLive(ok){var e=$("lvst");RS=ok?"ok":"fail";e.className=ok?"lv":"lv bad";
+  e.textContent=ok?"· live "+new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"· gagal, ketuk ulang";}
+// Kurs USD/IDR mandiri: tidak bergantung harga koin. Coba sumber satu per satu.
+function loadFx(){
+  var S=[
+    ["Indodax","https://indodax.com/api/ticker/usdtidr",function(j){return parseFloat(j&&j.ticker&&j.ticker.last)||0;}],
+    ["Binance","https://api.binance.com/api/v3/ticker/price?symbol=USDTIDR",function(j){return parseFloat(j&&j.price)||0;}],
+    ["open.er-api","https://open.er-api.com/v6/latest/USD",function(j){return j&&j.rates&&j.rates.IDR||0;}],
+    ["Frankfurter","https://api.frankfurter.app/latest?from=USD&to=IDR",function(j){return j&&j.rates&&j.rates.IDR||0;}],
+    ["currency-api","https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",function(j){return j&&j.usd&&j.usd.idr||0;}]
+  ];
+  (function next(i){
+    if(i>=S.length){renderPairs();return;}
+    fetchJson(S[i][1]).then(S[i][2]).then(function(v){
+      if(!(v>0))throw new Error("kosong");
+      IDX=v;FXS=S[i][0];applyUsd();renderPairs();cupd();
+    }).catch(function(){next(i+1);});
+  })(0);
+}
+function loadRates(){
+  if(busy)return;busy=true;setTimeout(function(){busy=false;},12000);
+  loadFx();
+  var ids=[];Object.keys(COINS).forEach(function(k){if(ids.indexOf(COINS[k].id)<0)ids.push(COINS[k].id);});
+  pricesGecko(ids).catch(function(){return {};})
+  .then(fillMissing(ids,pricesBackup)).then(fillMissing(ids,pricesPaprika))
+  .then(function(d){
+    var got=0;
+    ids.forEach(function(id){if(d[id]&&d[id].idr){PX[id]=d[id];got++;}});
+    Object.keys(COINS).forEach(function(k){var v=d[COINS[k].id];if(v&&v.idr)CFG.RATE[k]=v.idr;});
+    applyUsd();setLive(got>0);renderPairs();cupd();
+  }).catch(function(){setLive(false);renderPairs();cupd();}).then(function(){busy=false;});
+}
+$("lvst").onclick=function(){if(RS==="fail"){this.className="lv";this.textContent="· memuat";loadRates();}};
+// ===== Grafik riwayat harga =====
+function downsample(a,n){if(a.length<=n)return a;var o=[],s=(a.length-1)/(n-1);for(var i=0;i<n;i++)o.push(a[Math.round(i*s)]);return o;}
+function getHist(k,days){
+  var c=COINS[k],key=c.id+"_"+days,h=HC[key];
+  if(h&&Date.now()-h.at<300000)return Promise.resolve(h.d);
+  var cc=days==1?"histohour?limit=24":days==7?"histohour?limit=168":"histoday?limit=30";
+  return fetchJson("https://api.coingecko.com/api/v3/coins/"+c.id+"/market_chart?vs_currency=idr&days="+days)
+    .then(function(j){if(!j.prices||j.prices.length<2)throw new Error("empty");return j.prices;})
+    .catch(function(){return fetchJson("https://min-api.cryptocompare.com/data/v2/"+cc+"&fsym="+c.sym+"&tsym=IDR").then(function(j){
+      var a=(j.Data&&j.Data.Data)||[],r=a.filter(function(x){return x.close>0;}).map(function(x){return [x.time*1000,x.close];});
+      if(r.length<2)throw new Error("empty");return r;});})
+    .then(function(r){r=downsample(r,120);HC[key]={d:r,at:Date.now()};return r;});
+}
+function fmtP(v){return v>=1000?rp(v):"Rp"+v.toLocaleString("id-ID",{maximumFractionDigits:2});}
+function fmtT(ts){return new Date(ts).toLocaleString("id-ID",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});}
+var spTok=0;
+function cmp(v){return "Rp"+(v>=1e6?(v/1e6).toFixed(2).replace(".",",")+"jt":v>=1e3?Math.round(v/1e3)+"rb":v.toFixed(0));}
+function sparkSvg(k){
+  var c=COINS[k],h=HC[c.id+"_"+RNG];
+  if(!h)return {svg:'<svg class="sp" viewBox="0 0 100 32"></svg>',mm:"&nbsp;"};
+  var d=h.d,n=d.length,mn=Infinity,mx=-Infinity,i,pts=[];
+  for(i=0;i<n;i++){var v=d[i][1];if(v<mn)mn=v;if(v>mx)mx=v;}
+  var rg=(mx-mn)||1;
+  for(i=0;i<n;i++)pts.push((i*100/(n-1)).toFixed(1)+","+(30-(d[i][1]-mn)/rg*26).toFixed(1));
+  var line="M"+pts.join(" L");
+  return {svg:'<svg class="sp" viewBox="0 0 100 32" preserveAspectRatio="none"><path d="'+line+' L100,32 L0,32 Z" style="fill:'+c.color+';fill-opacity:.18"/><path d="'+line+'" style="fill:none;stroke:'+c.color+';stroke-width:1.6;stroke-linejoin:round" vector-effect="non-scaling-stroke"/></svg>',
+    mm:"min "+cmp(mn)+" · max "+cmp(mx)};
+}
+// muat riwayat satu per satu supaya tidak kena batas permintaan
+function loadSparks(){
+  var tok=++spTok,seen={},list=[];
+  Object.keys(COINS).forEach(function(k){if(!seen[COINS[k].id]){seen[COINS[k].id]=1;list.push(k);}});
+  (function next(i){
+    if(i>=list.length||tok!==spTok)return;
+    getHist(list[i],RNG).then(function(){if(tok===spTok)renderPairs();}).catch(function(){})
+    .then(function(){setTimeout(function(){next(i+1);},150);});
+  })(0);
+}
+$("rng").onclick=function(e){var t=e.target,b=t&&t.closest?t.closest("button"):null;if(!b||!b.dataset.d)return;
+  RNG=+b.dataset.d;Array.prototype.forEach.call(this.children,function(x){x.classList.toggle("on",x===b);});renderPairs();loadSparks();};
 // ==========================
 var mode="cash",pair="XMR",amt=10000;
 function $(i){return document.getElementById(i);}
@@ -167,10 +331,11 @@ function rp(x){return "Rp"+Math.round(x).toLocaleString("id-ID");}
 function feeOf(n){return n>0?Math.round(n*CFG.FEE_CASH):0;}
 function show(id){["vcash","vcrypto","vpq","vpc"].forEach(function(v){$(v).classList.toggle("hide",v!==id);});
   $("tabs").classList.toggle("hide",id==="vpq"||id==="vpc");window.scrollTo(0,0);}
-function theme(){document.documentElement.setAttribute("data-mode",mode==="cash"?"cash":pair);}
+function theme(){var r=document.documentElement;r.setAttribute("data-mode",mode==="cash"?"cash":pair);
+  r.style.setProperty("--coin",mode==="cash"?"#2ed8a3":COINS[pair].color);}
 function head(){var c=COINS[pair];
   $("ttl").textContent=mode==="cash"?"P2P Tukar Cash":"P2P "+c.label+" → IDR";
-  $("sub").textContent=mode==="cash"?"Tukar langsung peer to peer. Bayar via QRIS, terima uang tunai.":"Tukar langsung peer to peer. Kirim "+c.name+", terima Rupiah.";}
+  $("sub").textContent=mode==="cash"?"Bayar via QRIS, terima uang tunai.":"Kirim "+c.name+", terima Rupiah.";}
 function copyText(t,btn,okTxt,backTxt){
   function ok(){btn.textContent=okTxt;setTimeout(function(){btn.textContent=backTxt;},1700);}
   function fail(){btn.textContent="Gagal menyalin";setTimeout(function(){btn.textContent=backTxt;},1700);}
@@ -178,14 +343,13 @@ function copyText(t,btn,okTxt,backTxt){
 }
 // cash (nominal hanya bisa dipilih lewat tombol)
 function upd(){
-  $("n").textContent=rp(amt);
   $("cash").textContent=rp(amt);$("fee").textContent=rp(feeOf(amt));$("total").textContent=rp(amt+feeOf(amt));
   Array.prototype.forEach.call($("chips").children,function(b){b.classList.toggle("on",+b.dataset.v===amt);});
 }
 ALLOWED.forEach(function(v){var b=document.createElement("button");b.dataset.v=v;
-  b.innerHTML='<span class="a">'+rp(v)+'</span><span class="s">Bayar '+rp(v+feeOf(v))+'</span>';
+  b.innerHTML='<span class="a">'+rp(v)+'</span><span class="s">→ '+rp(v+feeOf(v))+'</span>';
   b.onclick=function(){amt=v;upd();};$("chips").appendChild(b);});
-$("qrimg").onerror=function(){$("qamt").textContent="Gambar QRIS gagal dimuat, hubungi admin.";};
+$("qrimg").onerror=function(){$("qamt").textContent="QRIS gagal dimuat, hubungi admin.";};
 $("pay").onclick=function(){
   if(ALLOWED.indexOf(amt)<0||!QR[amt])return;
   $("qamt").textContent="Bayar "+rp(amt+feeOf(amt));
@@ -195,30 +359,31 @@ $("back").onclick=function(){show("vcash");};
 function num(s){return parseFloat(s)||0;}
 function cupd(){var c=COINS[pair],a=num($("ca").value),r=CFG.RATE[pair],g=a*r,f=Math.round(g*CFG.FEE_CRYPTO);
   $("calab").textContent="Jumlah "+c.sym+" yang dikirim";
-  $("krate").textContent=r>0?"1 "+c.sym+" = "+rp(r):"Belum diatur";
-  $("kgross").textContent=rp(g);$("kfee").textContent=rp(f);$("kget").textContent=rp(g-f);
-  $("kex").href=c.ex;$("kex").textContent="Explorer "+c.exn;}
-Object.keys(COINS).forEach(function(k){var b=document.createElement("button");
-  b.innerHTML='<i style="background:'+COINS[k].color+'"></i>'+COINS[k].label;b.dataset.p=k;
-  b.onclick=function(){pair=k;sel();theme();head();cupd();};$("pairs").appendChild(b);});
-function sel(){Array.prototype.forEach.call($("pairs").children,function(b){b.classList.toggle("on",b.dataset.p===pair);});}
+  $("krate").parentNode.style.display=c.sym==="USDT"?"none":"";
+  $("krate").textContent=r>0?"1 "+c.sym+" = "+rp(r):(RS==="fail"?"Gagal dimuat":"memuat...");
+  $("kfee").textContent=rp(f);$("kget").textContent=rp(g-f);
+  $("kex").href=c.ex;$("kex").textContent=c.exn;}
+$("pairs").onclick=function(e){var t=e.target,b=t&&t.closest?t.closest("button"):null;if(!b||!b.dataset.p)return;
+  pair=b.dataset.p;theme();head();renderPairs();cupd();};
 $("ca").oninput=cupd;
 $("cpay").onclick=function(){var c=COINS[pair],a=num($("ca").value);if(a<=0)return;
   var g=a*CFG.RATE[pair],f=Math.round(g*CFG.FEE_CRYPTO);
   $("camt").textContent="Kirim "+a+" "+c.sym;
-  $("cget").textContent=CFG.RATE[pair]>0?"Kamu terima sekitar "+rp(g-f):"Kurs belum diatur, konfirmasi ke admin.";
+  $("cget").textContent=CFG.RATE[pair]>0?"Kamu terima sekitar "+rp(g-f):"Kurs belum tersedia, konfirmasi ke admin.";
   $("clab").textContent="Alamat penerima "+c.label;
   $("cnet").textContent=c.net||"";
-  $("cex").href=c.ex;$("cex").textContent="Buka Explorer ("+c.exn+") ↗";
+  $("cex").href=c.ex;
   $("caddr").textContent=CFG.ADDR[pair]||"Alamat belum diisi";show("vpc");};
 $("cback").onclick=function(){show("vcrypto");};
 $("ccopy").onclick=function(){var t=CFG.ADDR[pair];if(!t)return;copyText(t,this,"Tersalin","Salin alamat");};
 // tabs
 $("tabs").onclick=function(e){var m=e.target.getAttribute("data-m");if(!m)return;mode=m;
   Array.prototype.forEach.call(this.children,function(b){b.classList.toggle("on",b.getAttribute("data-m")===m);});
-  theme();head();show(m==="cash"?"vcash":"vcrypto");};
-sel();theme();head();upd();cupd();
-loadRates();setInterval(loadRates,60000);
+  theme();head();show(m==="cash"?"vcash":"vcrypto");if(m==="crypto")loadSparks();};
+applyUsd();theme();head();upd();cupd();renderPairs();
+loadRates();
+var RT=setInterval(loadRates,15000);
+document.addEventListener("visibilitychange",function(){clearInterval(RT);if(!document.hidden){loadRates();RT=setInterval(loadRates,15000);}});
 </script>
 </body>
 </html>
